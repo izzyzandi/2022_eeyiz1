@@ -1,4 +1,1 @@
-<<<<<<< HEAD
-priority: master 
-=======
-
+user 1 says hello 
