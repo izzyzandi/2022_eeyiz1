@@ -1,0 +1,11 @@
+cheatsheet 
+
+git show: this prints different objects such as commits. How much information is printed is determined by options
+
+log: shows information on prior commits
+
+checkout: enables the user to  change/ create branch or restore past versions of files
+
+init: turns a directory into a repository or creates an empty one
+
+reset: reset commit entries and update files. Not permanent change
