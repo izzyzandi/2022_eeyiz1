@@ -1,1 +1,1 @@
-user 1 says hello 
+USER 1 WAS HERE 
