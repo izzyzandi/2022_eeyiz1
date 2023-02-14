@@ -22,6 +22,9 @@ public slots:
     void handleTreeClick();
 signals:
     void statusUpdateMessage(const QString &message, int timeout);
+private slots:
+    void on_actionOpen_File_triggered();
+
 private:
     Ui::MainWindow *ui;
 
