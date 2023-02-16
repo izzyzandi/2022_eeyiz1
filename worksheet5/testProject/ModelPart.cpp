@@ -98,7 +98,9 @@ int ModelPart::row() const {
 
 void ModelPart::setColour(const unsigned char R, const unsigned char G, const unsigned char B) {
     /* This is a placeholder function that will be used in the next worksheet */
-    
+    RGB1 = R;
+    RGB2 = G;
+    RGB3 = B;
     /* As the name suggests ... */
 }
 
@@ -106,14 +108,14 @@ unsigned char ModelPart::getColourR() {
     /* This is a placeholder function that will be used in the next worksheet */
     
     /* As the name suggests ... */
-    return 0;   // needs updating
+    return RGB1;   // needs updating
 }
 
 unsigned char ModelPart::getColourG() {
     /* This is a placeholder function that will be used in the next worksheet */
     
     /* As the name suggests ... */
-    return 0;   // needs updating
+    return RGB2;   // needs updating
 }
 
 
@@ -121,21 +123,24 @@ unsigned char ModelPart::getColourB() {
     /* This is a placeholder function that will be used in the next worksheet */
     
     /* As the name suggests ... */
-    return 0;   // needs updating
+    return RGB3;   // needs updating
 }
 
 
-void ModelPart::setVisible(bool isVisible) {
+void ModelPart::setVisible(bool isVisible_) {
     /* This is a placeholder function that will be used in the next worksheet */
-    
+    isVisible = isVisible_;
     /* As the name suggests ... */
 }
 
 bool ModelPart::visible() {
     /* This is a placeholder function that will be used in the next worksheet */
-    
+    return 0;
     /* As the name suggests ... */
-    return false;
+}
+
+bool ModelPart::get_visible() {
+    return isVisible;
 }
 
 void ModelPart::loadSTL( QString fileName ) {

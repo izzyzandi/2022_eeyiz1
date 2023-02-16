@@ -9,10 +9,12 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->treeView->addAction(ui->actionItem_Options);
     connect(ui->pushButton, &QPushButton::released, this, &MainWindow::handleButton);
     connect(ui->pushButton_2, &QPushButton::released, this, &MainWindow::handleButton2);
     connect(ui->treeView, &QTreeView::clicked, this, &MainWindow::handleTreeClick);
     connect(this, &MainWindow::statusUpdateMessage, ui->statusbar, &QStatusBar::showMessage);
+
 
     /* create/allocate the ModelList */
     this->partList = new ModelPartList("PartsList");
@@ -67,13 +69,13 @@ void MainWindow::handleButton2() {
 
     if (dialog.exec() == QDialog::Accepted) {
         QString name = dialog.objectNameChanged();
-        QString RGB1 = dialog.getRGB1Value();
-        QString RGB2 = dialog.getRGB1Value();
-        QString RGB3 = dialog.getRGB1Value();
+        int RGB1 = dialog.getRGB1Value();
+        int RGB2 = dialog.getRGB1Value();
+        int RGB3 = dialog.getRGB1Value();
         bool Visible = dialog.isVisible();
         
 
-        emit statusUpdateMessage(QString(name)+" " + RGB1+" " + RGB2+ " " + RGB3+" "+ (Visible ? "True" : "False"), 0);
+        emit statusUpdateMessage(QString(name)+" " + QString::number(RGB1) +" " + QString::number(RGB2) + " " + QString::number(RGB3) +" "+ (Visible ? "True" : "False"), 0);
 
 
         
@@ -118,3 +120,59 @@ void MainWindow::on_actionOpen_File_triggered()
     emit statusUpdateMessage(QString(fileName), 0);
 }
 
+void MainWindow::on_actionItem_Options_triggered()
+{
+    optionDialog dialog(this);
+    optionDialog visible(this);
+    optionDialog RGB1(this);
+    optionDialog RGB2(this);
+    optionDialog RGB3(this);
+
+    /* Get the index of the selected item*/
+    QModelIndex index = ui->treeView->currentIndex();
+    /* Get a pointer to the item from the index*/
+    ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
+
+    dialog.setObjectName(selectedPart->data(0).toString());
+    dialog.setRGB1Value(selectedPart->getColourR());
+    dialog.setRGB2Value(selectedPart->getColourG());
+    dialog.setRGB3Value(selectedPart->getColourB());
+    dialog.setIsVisible(selectedPart->get_visible());
+    
+
+    if (dialog.exec() == QDialog::Accepted) {
+        QString name = dialog.objectNameChanged();
+        int RGB1 = dialog.getRGB1Value();
+        int RGB2 = dialog.getRGB2Value();
+        int RGB3 = dialog.getRGB3Value();
+        bool Visible = dialog.isVisible();
+
+  
+        
+        
+
+        selectedPart->set(0, name);
+        selectedPart->setColour(RGB1, RGB2,RGB3);
+        selectedPart->setVisible(Visible);
+        if (Visible)
+        {
+            selectedPart->set(1, "true");
+        }
+        else
+        {
+            selectedPart->set(1, "false");
+        }
+
+
+    
+        emit statusUpdateMessage(QString(name) + " " + QString::number(RGB1) + " " + QString::number(RGB2) + " " + QString::number(RGB3) + " " + (Visible ? "True" : "False"), 0);
+
+
+
+
+
+    }
+    else {
+        emit statusUpdateMessage(QString("Dialog rejected"), 0);
+    }
+}

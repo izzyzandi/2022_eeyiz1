@@ -22,16 +22,16 @@ bool optionDialog::isVisible() {
 
 }
 
-QString optionDialog::getRGB1Value() {
-    return ui->RGB1->text();
+int optionDialog::getRGB1Value() {
+    return ui->RGB1->value();
 }
 
-QString optionDialog::getRGB2Value() {
-    return ui->RGB2->text();
+int optionDialog::getRGB2Value() {
+    return ui->RGB2->value();
 }
 
-QString optionDialog::getRGB3Value() {
-    return ui->RGB3->text();
+int optionDialog::getRGB3Value() {
+    return ui->RGB3->value();
 }
 
 void optionDialog::setObjectName(QString dialogg) {
@@ -42,14 +42,14 @@ void optionDialog::setIsVisible(bool checkBoxx) {
     ui->visible->setChecked(checkBoxx);
 }
 
-void optionDialog::setRGB1Value(int RGB1_) {
+void optionDialog::setRGB1Value(unsigned char RGB1_) {
     ui->RGB1->setValue(RGB1_);
 }
 
-void optionDialog::setRGB2Value(int RGB2_) {
+void optionDialog::setRGB2Value(unsigned char RGB2_) {
     ui->RGB2->setValue(RGB2_);
 }
 
-void optionDialog::setRGB3Value(int RGB3_) {
+void optionDialog::setRGB3Value(unsigned char RGB3_) {
     ui->RGB3->setValue(RGB3_);
 }

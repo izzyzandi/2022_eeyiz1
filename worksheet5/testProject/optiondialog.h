@@ -17,15 +17,15 @@ public:
 
     QString objectNameChanged();
     bool isVisible();
-    QString getRGB1Value();
-    QString getRGB2Value();
-    QString getRGB3Value();
+    int getRGB1Value();
+    int getRGB2Value();
+    int getRGB3Value();
 
     void setObjectName(QString dialogg);
     void setIsVisible(bool checkBoxx);
-    void setRGB1Value(int RGB1);
-    void setRGB2Value(int RGB2);
-    void setRGB3Value(int RGB3);
+    void setRGB1Value(unsigned char RGB1);
+    void setRGB2Value(unsigned char RGB2);
+    void setRGB3Value(unsigned char RGB3);
 
 
 private:

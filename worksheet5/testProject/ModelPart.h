@@ -14,6 +14,7 @@
 #include <QList>
 #include <QVariant>
 
+
 /* VTK headers - will be needed when VTK used in next worksheet,
  * commented out for now
  *
@@ -126,6 +127,8 @@ public:
       */
     //vtkActor* getNewActor();
 
+    bool get_visible();
+
 private:
     QList<ModelPart*>                           m_childItems;       /**< List (array) of child items */
     QList<QVariant>                             m_itemData;         /**< List (array of column data for item */
@@ -134,7 +137,11 @@ private:
     /* These are some typical properties that I think the part will need, you might
      * want to add you own.
      */
-    bool                                        isVisible;          /**< True/false to indicate if should be visible in model rendering */
+    QString name;
+    bool isVisible;          /**< True/false to indicate if should be visible in model rendering */
+    unsigned char RGB1=0;
+    unsigned char RGB2=0;
+    unsigned char RGB3=0;
 	
 	/* These are vtk properties that will be used to load/render a model of this part,
 	 * commented out for now but will be used later
