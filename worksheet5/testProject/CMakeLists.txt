@@ -22,6 +22,9 @@ set(PROJECT_SOURCES
 	  ModelPartList.h
 	  ModelPartList.cpp
           Icons.qrc
+	optiondialog.h
+      optiondialog.cpp 
+     optiondialog.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

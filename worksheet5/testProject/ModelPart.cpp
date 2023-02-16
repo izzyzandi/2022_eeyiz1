@@ -22,6 +22,7 @@ ModelPart::ModelPart(const QList<QVariant>& data, ModelPart* parent )
     : m_itemData(data), m_parentItem(parent) {
 
     /* You probably want to give the item a default colour */
+    
 }
 
 

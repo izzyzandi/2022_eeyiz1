@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include "./ui_optiondialog.h"
 #include <QMessageBox>
 #include <QApplication>
 
@@ -56,9 +57,34 @@ void MainWindow::handleButton() {
 }
 
 void MainWindow::handleButton2() {
-    QMessageBox msgBox2;
-    msgBox2.setText("Button 2 was clicked");
-    msgBox2.exec();
+    optionDialog dialog(this);
+    optionDialog visible(this);
+    optionDialog RGB1(this);
+    optionDialog RGB2(this);
+    optionDialog RGB3(this);
+
+
+
+    if (dialog.exec() == QDialog::Accepted) {
+        QString name = dialog.objectNameChanged();
+        QString RGB1 = dialog.getRGB1Value();
+        QString RGB2 = dialog.getRGB1Value();
+        QString RGB3 = dialog.getRGB1Value();
+        bool Visible = dialog.isVisible();
+        
+
+        emit statusUpdateMessage(QString(name)+" " + RGB1+" " + RGB2+ " " + RGB3+" "+ (Visible ? "True" : "False"), 0);
+
+
+        
+        
+        
+    }
+    else {
+        emit statusUpdateMessage(QString("Dialog rejected"), 0);
+    }
+
+    
 }
 
 void MainWindow::handleTreeClick() {
@@ -83,6 +109,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionOpen_File_triggered()
 {
-    emit statusUpdateMessage(QString("Open File action triggered"),0);
+    QString fileName = QFileDialog::getOpenFileName(
+        this,
+        tr("Open File"),
+        "C:\\",
+        tr("STL Files(*.stl);;Text Files(*.txt)"));
+
+    emit statusUpdateMessage(QString(fileName), 0);
 }
 

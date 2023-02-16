@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 #include "ModelPart.h"
 #include "ModelPartList.h"
+#include "optiondialog.h"
+#include <QFileDialog>
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
