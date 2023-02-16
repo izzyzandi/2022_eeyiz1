@@ -116,7 +116,14 @@ void MainWindow::on_actionOpen_File_triggered()
         tr("Open File"),
         "C:\\",
         tr("STL Files(*.stl);;Text Files(*.txt)"));
+    /* Get the index of the selected item*/
+    QModelIndex index = ui->treeView->currentIndex();
 
+    /* Get a pointer to the item from the index*/
+
+    ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
+
+    selectedPart->set(0, fileName);
     emit statusUpdateMessage(QString(fileName), 0);
 }
 
