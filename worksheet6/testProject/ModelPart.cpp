@@ -183,27 +183,31 @@ vtkActor* ModelPart::getNewActor() {
      * to create a second mapper/actor combination for use in VR - that is the role
      * of this function. */
      
-     
-     /* 1. Create new mapper */
-    vtkNew<vtkPolyDataMapper> mapper2;
-  //  mapper2->SetInputConnection(file->GetOutputPort());
+    if (!actor) return NULL;
+    if (file) {
+        /* 1. Create new mapper */
+        vtkSmartPointer<vtkDataSetMapper> mapper2 = vtkSmartPointer<vtkDataSetMapper>::New();
+        mapper2->SetInputConnection(file->GetOutputPort());
 
-  //  
-  //   /* 2. Create new actor and link to mapper */
-     vtkNew<vtkActor> actor2;
-     actor2->SetMapper(mapper2);
-     /* 3. Link the vtkProperties of the original actor to the new actor. This means 
-      *    if you change properties of the original part (colour, position, etc), the
-      *    changes will be reflected in the GUI AND VR rendering.
-  
-      *    
-      *    See the vtkActor documentation, particularly the GetProperty() and SetProperty()
-      *    functions.
-      */
-    actor2->SetProperty(actor->GetProperty());
+        //  DataSetMappr
+        // /* 2. Create new actor and link to mapper */
 
-    /* The new vtkActor pointer must be returned here */
-    return actor2;
-   
+        vtkActor* actor2 = vtkActor::New();
+        actor2->SetMapper(mapper2);
+
+        /* 3. Link the vtkProperties of the original actor to the new actor. This means
+         *    if you change properties of the original part (colour, position, etc), the
+         *    changes will be reflected in the GUI AND VR rendering.
+
+         *
+         *    See the vtkActor documentation, particularly the GetProperty() and SetProperty()
+         *    functions.
+         */
+        actor2->SetProperty(actor->GetProperty());
+
+        /* The new vtkActor pointer must be returned here */
+        return actor2;
+    }
+    return nullptr;
 }
 

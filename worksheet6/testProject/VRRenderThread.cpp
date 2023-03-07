@@ -55,7 +55,7 @@ VRRenderThread::~VRRenderThread() {
 
 
 void VRRenderThread::addActorOffline( vtkActor* actor ) {
-
+	if (!actor) return;
 	/* Check to see if render thread is running */
 	if (!this->isRunning()) {
 		double* ac = actor->GetOrigin();

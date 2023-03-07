@@ -73,11 +73,19 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 void MainWindow::handleButton() {
-    VRRenderThread VR;
+    VRRenderThread* VR = new VRRenderThread;
+
     QModelIndex index = ui->treeView->currentIndex();
+
     ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
-    VR.addActorOffline(selectedPart->getNewActor());
+
+ //   emit statusUpdateMessage(QString("Selected Part: ") + selectedPart->data(0).toString() , 0);
+
+    VR->addActorOffline( selectedPart->getNewActor() );
+
     emit statusUpdateMessage(QString("VR button was clicked!"), 0); 
+
+    VR->start();
 }
 
 void MainWindow::handleButton2() {
