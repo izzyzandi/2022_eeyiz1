@@ -147,21 +147,33 @@ void ModelPart::loadSTL( QString fileName ) {
     /* This is a placeholder function that will be used in the next worksheet */
     
     /* 1. Use the vtkSTLReader class to load the STL file 
-     *     https://vtk.org/doc/nightly/html/classvtkSTLReader.html
+     * //    https://vtk.org/doc/nightly/html/classvtkSTLReader.html
      */
 
+    file = vtkNew<vtkSTLReader>();
+   
+    file->SetFileName(fileName.toStdString().c_str());
+   
     /* 2. Initialise the part's vtkMapper */
-    
+    mapper = vtkNew<vtkPolyDataMapper>();
+    mapper->SetInputConnection(file->GetOutputPort());
+
     /* 3. Initialise the part's vtkActor and link to the mapper */
+    actor = vtkNew<vtkActor>();
+    actor->SetMapper(mapper);
+
+  
+
+
 }
 
-//vtkSmartPointer<vtkActor> ModelPart::getActor() {
+vtkSmartPointer<vtkActor> ModelPart::getActor() {
     /* This is a placeholder function that will be used in the next worksheet */
-    
+    return actor;
     /* Needs to return a smart pointer to the vtkActor to allow
      * part to be rendered.
      */
-//}
+}
 
 //vtkActor* ModelPart::getNewActor() {
     /* This is a placeholder function that will be used in the next worksheet.

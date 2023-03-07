@@ -148,6 +148,8 @@ void MainWindow::on_actionOpen_File_triggered()
         tr("Open File"),
         "C:\\",
         tr("STL Files(*.stl);;Text Files(*.txt)"));
+    if (fileName == "")
+        return;
     /* Get the index of the selected item*/
     QModelIndex index = ui->treeView->currentIndex();
 
@@ -155,8 +157,22 @@ void MainWindow::on_actionOpen_File_triggered()
 
     ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
 
-    selectedPart->set(0, fileName);
+    QFileInfo fi(fileName);
+
+    // when adding in CAD files 
+
+    QString name = fi.fileName();
+    QString visible("true");
+    ModelPart* childChildItem = new ModelPart({ name,visible });
+
+    /* Append to parent*/
+    selectedPart->appendChild(childChildItem);
+    childChildItem->loadSTL(fileName);
+   // selectedPart->set(0, fi.fileName());
     emit statusUpdateMessage(QString(fileName), 0);
+
+    updateRender();
+
 }
 
 void MainWindow::on_actionItem_Options_triggered()
@@ -177,7 +193,7 @@ void MainWindow::on_actionItem_Options_triggered()
     dialog.setRGB2Value(selectedPart->getColourG());
     dialog.setRGB3Value(selectedPart->getColourB());
     dialog.setIsVisible(selectedPart->get_visible());
-    
+
 
     if (dialog.exec() == QDialog::Accepted) {
         QString name = dialog.objectNameChanged();
@@ -186,12 +202,12 @@ void MainWindow::on_actionItem_Options_triggered()
         int RGB3 = dialog.getRGB3Value();
         bool Visible = dialog.isVisible();
 
-  
-        
-        
+
+
+
 
         selectedPart->set(0, name);
-        selectedPart->setColour(RGB1, RGB2,RGB3);
+        selectedPart->setColour(RGB1, RGB2, RGB3);
         selectedPart->setVisible(Visible);
         if (Visible)
         {
@@ -203,7 +219,7 @@ void MainWindow::on_actionItem_Options_triggered()
         }
 
 
-    
+
         emit statusUpdateMessage(QString(name) + " " + QString::number(RGB1) + " " + QString::number(RGB2) + " " + QString::number(RGB3) + " " + (Visible ? "True" : "False"), 0);
 
 
@@ -215,3 +231,28 @@ void MainWindow::on_actionItem_Options_triggered()
         emit statusUpdateMessage(QString("Dialog rejected"), 0);
     }
 }
+    void MainWindow::updateRender() {
+        renderer->RemoveAllViewProps();
+        updateRenderFromTree(partList->index(0, 0, QModelIndex()));
+        renderer->Render();
+        vtkSmartPointer <vtkRenderWindow> renderWindow = renderer->GetRenderWindow();
+        renderWindow->Render();
+        ui->vtkWidget->repaint();
+    }
+    void MainWindow::updateRenderFromTree(const QModelIndex & index) {
+        if (index.isValid()) {
+            ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
+            renderer->AddActor(selectedPart->getActor());
+            /* Retrieve actor from selected part and add to renderer*/
+        }
+        // check to see if part has any children
+        if (!partList->hasChildren(index) || (index.flags() & Qt::ItemNeverHasChildren)) {
+            return;
+        }
+        /*loop through children and add their actors*/
+        int rows = partList->rowCount(index);
+        for (int i = 0; i < rows; i++) {
+            updateRenderFromTree(partList->index(i, 0, index));
+        }
+        
+    }
