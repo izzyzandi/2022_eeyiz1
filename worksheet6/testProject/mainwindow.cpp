@@ -1,8 +1,10 @@
+#include "VRRenderThread.h"
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "./ui_optiondialog.h"
 #include <QMessageBox>
 #include <QApplication>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -26,29 +28,16 @@ MainWindow::MainWindow(QWidget *parent)
     eg nested functions*/
     ModelPart* rootItem = this->partList->getRootItem();
 
-    /* Add 3 top level items*/
-    for (int i = 0; i < 3; i++) {
-        /* Create strings for both data columns*/
-        QString name = QString("TopLevel %1").arg(i);
-        QString visible("true");
+    QString name = QString("Model");
+    QString visible("true");
 
-        /* Creat child item */
-        ModelPart* childItem = new ModelPart({ name,visible });
+    /* Creat child item */
+    ModelPart* childItem = new ModelPart({ name,visible });
 
-        /*Append to tree top-level*/
-        rootItem->appendChild(childItem);
+    /*Append to tree top-level*/
+    rootItem->appendChild(childItem);
 
-        /* Add 5 sub-items*/
-        for (int j = 0; j < 5; j++) {
-            QString name = QString("Item %1,%2").arg(i).arg(j);
-            QString visible("true");
-
-            ModelPart* childChildItem = new ModelPart({ name,visible });
-
-            /* Append to parent*/
-            childItem->appendChild(childChildItem);
-        }
-    }
+  
     // link a render window with qt widget
     renderWindow = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
     ui->vtkWidget->setRenderWindow(renderWindow);
@@ -84,10 +73,11 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 void MainWindow::handleButton() {
-    QMessageBox msgBox;
-    msgBox.setText("Button was clicked");
-    msgBox.exec();
-    emit statusUpdateMessage(QString("button was clicked!"), 0);
+    VRRenderThread VR;
+    QModelIndex index = ui->treeView->currentIndex();
+    ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
+    VR.addActorOffline(selectedPart->getNewActor());
+    emit statusUpdateMessage(QString("VR button was clicked!"), 0); 
 }
 
 void MainWindow::handleButton2() {

@@ -45,5 +45,7 @@ private:
 
     vtkSmartPointer<vtkRenderer> renderer;
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> renderWindow;
+    
+   // VRRenderThread* VRThread;
 };
 #endif // MAINWINDOW_H

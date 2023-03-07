@@ -14,18 +14,20 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(VTK REQUIRED)
 
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
+      main.cpp
+      mainwindow.cpp
+      mainwindow.h
+      mainwindow.ui
 	  ModelPart.cpp
 	  ModelPart.h
 	  ModelPartList.h
 	  ModelPartList.cpp
-        Icons.qrc
+      Icons.qrc
 	  optiondialog.h
-        optiondialog.cpp 
-        optiondialog.ui
+      optiondialog.cpp 
+      optiondialog.ui
+      VRRenderThread.h
+      VRRenderThread.cpp
 	 
 )
 
